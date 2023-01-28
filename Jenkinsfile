@@ -47,7 +47,7 @@ pipeline{
                     sh 'docker login -u akshayraina -p ${dockerhubpwd}'
                 }
                 
-                sh "docker push akshayraina/dockeransiblejenkins:${DOCKER_TAG} "
+                sh "docker push akshayraina/${JOB_NAME}:${BUILD_NUMBER} "
             }
         }
         stage('Deploy to Kubernetes cluster'){

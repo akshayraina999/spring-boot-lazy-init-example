@@ -19,6 +19,20 @@ pipeline{
                 sh "mvn clean package"
             }
         }
+        stage('Docker Build'){
+            steps{
+                sh "docker build . -t akshayraina/dockeransiblejenkins:${DOCKER_TAG} "
+            }
+        }
+        stage('DockerHub Push'){
+            steps{
+                withCredentials([string(credentialsId: 'dockerhub-pwd', variable: 'dockerhubpwd')]){
+                    sh 'docker login -u akshayraina -p ${dockerhubpwd}'
+                }
+                
+                sh "docker push akshayraina/dockeransiblejenkins:${DOCKER_TAG} "
+            }
+        }
     }
 }
 

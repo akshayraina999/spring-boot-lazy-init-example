@@ -15,10 +15,6 @@ spec:
       containers:
       - name: jenkins
         image: akshayraina/dockeransiblejenkins:8d8316c
-        resources:
-          limits:
-            memory: "128Mi"
-            cpu: "500m"
         ports:
         - containerPort: 8080
 ---
@@ -33,5 +29,5 @@ spec:
   ports:
   - name:  http
     protocol: TCP
-    port:  8080
-    targetPort:  8099
+    port:  8099
+    targetPort:  8080

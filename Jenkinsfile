@@ -28,13 +28,13 @@ pipeline{
                 }
             }
         }
-        stage('Quality Gate Status'){
-            steps{
-                script{
-                    waitForQualityGate abortPipeline: false, credentialsId: 'sonar-api'
-                }
-            }
-        }
+        // stage('Quality Gate Status'){
+        //     steps{
+        //         script{
+        //             waitForQualityGate abortPipeline: false, credentialsId: 'sonar-api'
+        //         }
+        //     }
+        // }
         stage('Docker Build'){
             steps{
                 // sh "docker build . -t akshayraina/${JOB_NAME}:${DOCKER_TAG} "
@@ -48,6 +48,11 @@ pipeline{
                 }
                 
                 sh "docker push akshayraina/dockeransiblejenkins:${DOCKER_TAG} "
+            }
+        }
+        stage('Deploy to K8's cluster){
+            steps{
+                kubernetesDeploy configs: "deploy.yml", kubeconfigId:"kubernetes" 
             }
         }
     }

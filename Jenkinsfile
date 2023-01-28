@@ -19,9 +19,26 @@ pipeline{
                 sh "mvn clean package"
             }
         }
+        stage('Code Analysis'){
+            steps{
+                script{
+                    withSonarQubeEnv(credentialsId: 'sonar'){
+                        sh 'mvn clean package sonar:sonar'
+                    }
+                }
+            }
+        }
+        stage('Quality Gate Status'){
+            steps{
+                script{
+                    waitForQualityGate abortPipeline: false, credentialsId: 'sonar'
+                }
+            }
+        }
         stage('Docker Build'){
             steps{
-                sh "docker build . -t akshayraina/dockeransiblejenkins:${DOCKER_TAG} "
+                // sh "docker build . -t akshayraina/${JOB_NAME}:${DOCKER_TAG} "
+                sh "docker build . -t akshayraina/${JOB_NAME}:${BUILD_NUMBER} "
             }
         }
         stage('DockerHub Push'){

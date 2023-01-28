@@ -19,15 +19,15 @@ pipeline{
                 sh "mvn clean package"
             }
         }
-        stage('Code Analysis'){
-            steps{
-                script{
-                    withSonarQubeEnv(credentialsId: 'sonar-api'){
-                        sh 'mvn clean package sonar:sonar'
-                    }
-                }
-            }
-        }
+        // stage('Code Analysis'){
+        //     steps{
+        //         script{
+        //             withSonarQubeEnv(credentialsId: 'sonar-api'){
+        //                 sh 'mvn clean package sonar:sonar'
+        //             }
+        //         }
+        //     }
+        // }
         // stage('Quality Gate Status'){
         //     steps{
         //         script{

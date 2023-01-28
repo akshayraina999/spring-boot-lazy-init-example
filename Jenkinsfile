@@ -50,9 +50,11 @@ pipeline{
                 sh "docker push akshayraina/dockeransiblejenkins:${DOCKER_TAG} "
             }
         }
-        stage('Deploy to K8's cluster){
+        stage('Deploy to Kubernetes cluster'){
             steps{
-                kubernetesDeploy configs: "deploy.yml", kubeconfigId:"kubernetes" 
+                script{
+                    kubernetesDeploy configs: "deploy.yml", kubeconfigId:"kubernetes" 
+                }
             }
         }
     }
